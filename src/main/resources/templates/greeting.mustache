@@ -1,9 +1,29 @@
 <!DOCTYPE HTML>
+<html lang="en">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>Hello, {{name}}</div>
+<div>
+    <form method="post" action="/create">
+        <input type="text" name="name" placeholder="username" />
+        <input type="text" name="email" placeholder="email">
+        <button type="submit">Add</button>
+    </form>
+</div>
+
+<div>Users list</div>
+<form method="get" action="/search">
+    <input type="text" name="filter">
+    <button type="submit">Find</button>
+</form>
+<hr>
+{{#users}}
+    <span>{{id}}</span>
+    <span>{{name}}</span>
+    <span>{{email}}</span>
+    <hr>
+{{/users}}
 </body>
 </html>
