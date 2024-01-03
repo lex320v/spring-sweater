@@ -3,13 +3,10 @@ package example.sweater.controllers;
 import example.sweater.models.User;
 import example.sweater.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class GreetingController {
@@ -19,18 +16,23 @@ public class GreetingController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/")
-    public ModelAndView index(Map<String, Object> model) {
+    public String index(Model model) {
         Iterable<User> users = userRepository.findAll();
-        model.put("users", users);
-        return new ModelAndView("greeting", model);
+        model.addAttribute("users", users);
+        return "greeting";
     }
 
     @GetMapping("/search")
-    public ModelAndView greeting(@RequestParam String filter, Map<String, Object> model) {
-        List<User> users = userRepository.findByName(filter);
-        model.put("users", users);
-        return new ModelAndView("greeting", model);
+    public String greeting(@RequestParam String filter, Model model) {
+        User users = userRepository.findByUsername(filter);
+        model.addAttribute("users", users);
+        return "greeting";
     }
 
     @PostMapping("/create")
